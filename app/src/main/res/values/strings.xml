@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Warren Login</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="txt_button_entrar">Entrar</string>
+    <string name="txt_tela_cadastro">Não tem conta? Cadastre-se!</string>
+</resources>
