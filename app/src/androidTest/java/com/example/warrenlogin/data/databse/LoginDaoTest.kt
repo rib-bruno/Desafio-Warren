@@ -9,7 +9,10 @@ import com.example.warrenlogin.feature_login.data.database.AppDatabase
 import com.example.warrenlogin.feature_login.data.database.LoginDao
 import com.example.warrenlogin.feature_login.data.database.LoginDb
 import com.google.common.truth.Truth.assertThat
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -34,7 +37,9 @@ class LoginDaoTest {
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             AppDatabase::class.java
-        ).allowMainThreadQueries().build()
+        )
+            .allowMainThreadQueries()
+            .build()
         dao = database.loginDao()
     }
 
@@ -43,34 +48,56 @@ class LoginDaoTest {
         database.close()
     }
 
-    @Test
-    fun insertLogin() = runTest {
-        val loginItem = LoginDb(id = 1, "bruno", "ribeiro")
+    private var loginItem = LoginDb(id = 1, "bruno", "ribeiro")
+
+    private suspend fun addOneItemToDb() {
         dao.insert(loginItem)
+    }
 
-        val allLoginItem = dao.getLogin()
 
-        assertThat(allLoginItem).isEqualTo(loginItem)
+    @Test
+    fun daoInsert_insertLogin() = runBlocking {
+        addOneItemToDb()
+
+        val allLoginItems = dao.getLogin()
+        assertEquals(allLoginItems, loginItem)
+        //assertThat(allLoginItems).isEqualTo(loginItem)
     }
 
     @Test
-    fun deleteLogin() = runTest{
-        val loginItem = LoginDb(id = 1, "bruno", "ribeiro")
-        dao.insert(loginItem)
+    fun daoDeleteAll_deleteLogin() = runTest {
+        addOneItemToDb()
         dao.deleteAll()
 
+        //entraindo ntity do bando de dados
         val allLoginItem = dao.getLogin()
 
+        //assertEquals(allLoginItem, loginItem)
+        // assertThat(allLoginItem).isNull()
         assertThat(allLoginItem).isNotEqualTo(loginItem)
+
+
     }
 
     @Test
-    fun saveLogin() = runTest {
-        val loginItem = LoginDb(id = 1, "bruno", "ribeiro")
+    fun daoGetLogin_getLoginFromDb() = runTest {
+        addOneItemToDb()
+
+        //entraindo entity do bando de dados
+        val allLoginItem = dao.getLogin()
+        assertEquals(allLoginItem, loginItem)
+
+    }
+
+    @Test
+    fun daoSaveLogin_returnLoginDb() = runTest {
+        addOneItemToDb()
         dao.saveLogin(loginItem)
+
         val allLoginItem = dao.getLogin()
 
-        assertThat(allLoginItem).isEqualTo(loginItem)
+       // assertThat(allLoginItem).isEqualTo(loginItem)
+        assertEquals(allLoginItem, loginItem)
 
 
     }
