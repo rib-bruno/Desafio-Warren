@@ -16,15 +16,14 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
-    var email: String = ""
-    var password: String = ""
-
     private val  _loginState : MutableLiveData<Resource<Access>> = MutableLiveData()
     val loginState: LiveData<Resource<Access>>
     get() = _loginState
 
-    fun doLogin() = viewModelScope.launch {
-       _loginState.value = loginUseCase(email, password)
+    fun doLogin(email: String, password: String) = viewModelScope.launch {
+       _loginState.value = loginUseCase.invoke(email, password)
+//        val loginResult = loginUseCase.invoke(email, password)
+
        }
 
 
