@@ -140,6 +140,9 @@ dependencies {
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
+    //splash
+    implementation "androidx.core:core-splashscreen:1.0.1"
+
 
 
 }

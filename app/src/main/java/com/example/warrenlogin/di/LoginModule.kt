@@ -4,6 +4,7 @@ import com.example.warrenlogin.feature_login.data.database.LoginDao
 import com.example.warrenlogin.feature_login.data.remote.LoginApi
 import com.example.warrenlogin.feature_login.data.repository.LoginRepositoryImpl
 import com.example.warrenlogin.feature_login.domain.repository.LoginRepository
+import com.example.warrenlogin.feature_login.domain.use_case.AccessUseCase
 import com.example.warrenlogin.feature_login.domain.use_case.LoginUseCase
 import com.example.warrenlogin.other.Constants.BASE_URL
 import dagger.Module
@@ -44,6 +45,12 @@ object LoginModule {
     @Singleton
     fun providesLoginUseCase(repository: LoginRepository) : LoginUseCase {
         return LoginUseCase((repository))
+    }
+
+    @Provides
+    @Singleton
+    fun providesAccessUseCase(repository: LoginRepository) : AccessUseCase {
+        return AccessUseCase(repository)
     }
 
     @Provides

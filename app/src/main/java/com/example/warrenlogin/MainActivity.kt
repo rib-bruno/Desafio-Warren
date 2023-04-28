@@ -2,20 +2,16 @@ package com.example.warrenlogin
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.activity.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
 import com.example.warrenlogin.databinding.ActivityMainBinding
-import com.example.warrenlogin.feature_login.domain.util.Resource
 import com.example.warrenlogin.feature_login.presentation.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -77,8 +73,8 @@ class MainActivity : AppCompatActivity() {
         loginViewModel.doLogin(email, password)
         Handler(Looper.getMainLooper()).postDelayed({
             navigateMainScreen()
-           // val snackbar = Snackbar.make(view, "Login efetuado com sucesso", Snackbar.LENGTH_SHORT)
-           // snackbar.show()
+//            val snackbar = Snackbar.make(view, "Login efetuado com sucesso", Snackbar.LENGTH_SHORT)
+//            snackbar.show()
         }, 3000)
     }
 
