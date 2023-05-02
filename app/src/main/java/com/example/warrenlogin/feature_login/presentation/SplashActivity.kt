@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.warrenlogin.MainActivity
 import com.example.warrenlogin.MainScreen
 import com.example.warrenlogin.R
@@ -15,7 +16,9 @@ class SplashActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        setContentView(R.layout.activity_splash)
+        installSplashScreen()
+
+       // setContentView(R.layout.activity_splash)
 
         startAccessObserver()
     }

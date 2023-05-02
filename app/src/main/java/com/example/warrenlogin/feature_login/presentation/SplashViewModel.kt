@@ -22,21 +22,24 @@ class SplashViewModel @Inject constructor(
     emit(result)
 }
 
-    init {
-        viewModelScope.launch {
-            when(accessUseCase()) {
-                is Resource.Success -> {
-
-
-                }
-                is Resource.Error -> {
-
-                }
-            }
-        }
-    }
+//    init {
+//        viewModelScope.launch {
+//            delay(3000)
+//            when(accessUseCase()) {
+//                is Resource.Success -> {
+//
+//
+//                }
+//                is Resource.Error -> {
+//
+//                }
+//            }
+//        }
+//    }
 
     private suspend fun getAccess(): Boolean {
-      return accessUseCase() is Resource.Success
+      //return accessUseCase() is Resource.Success
+        val result = accessUseCase.invoke()
+        return result is Resource.Success
     }
 }

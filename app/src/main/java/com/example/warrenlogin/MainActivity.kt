@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.warrenlogin.databinding.ActivityMainBinding
 import com.example.warrenlogin.feature_login.presentation.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -21,8 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
+       // setTheme(R.style.Theme_WarrenLogin)
         binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main) n precisa
         setContentView(binding.root)
 
         supportActionBar!!.hide()
