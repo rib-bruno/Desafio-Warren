@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+       installSplashScreen()
        // setTheme(R.style.Theme_WarrenLogin)
         binding = ActivityMainBinding.inflate(layoutInflater)
 //        setContentView(R.layout.activity_main) n precisa

@@ -19,15 +19,17 @@ class LoginRepositoryImpl(
        val request = LoginBody(email, password)
         return try {
             val response = loginApi.doLogin(request)
-            if (response.successful) {
-                response.data?.let {
+            if (response.isSuccessful) {
+                response.body()?.let {
                     println("Overriding token with ${it.accessToken}")
-                    loginDao.saveLogin(response.data.toLoginDb())
+                    //loginDao.saveLogin(response.data.toLoginDb())
+                    loginDao.saveLogin(it.toLoginDb())
                 }
-                Resource.Success(response.data?.toAccess())
+               // Resource.Success(response.data?.toAccess())
+                Resource.Success(response.body()?.toAccess())
             } else {
-                response.message?.let {
-                    Resource.Error(it)
+                response.errorBody()?.let {
+                    Resource.Error("erro 1")
                 } ?: Resource.Error("erro desconhecido")
             }
         } catch (e:IOException) {

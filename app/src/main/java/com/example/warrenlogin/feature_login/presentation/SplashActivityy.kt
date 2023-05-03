@@ -1,25 +1,18 @@
 package com.example.warrenlogin.feature_login.presentation
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.warrenlogin.MainActivity
 import com.example.warrenlogin.MainScreen
 import com.example.warrenlogin.R
 
-class SplashActivity: AppCompatActivity() {
-
-    private val splashViewModel: SplashViewModel by viewModels()
-
+class SplashActivityy : AppCompatActivity() {
+    private  val splashViewModel: SplashViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_WarrenLogin)
-
-
-
-       // setContentView(R.layout.activity_splash)
+        setContentView(R.layout.activity_splash_activityy)
 
         startAccessObserver()
     }
