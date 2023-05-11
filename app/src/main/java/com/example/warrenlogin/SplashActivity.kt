@@ -11,12 +11,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
-    private  val splashViewModel: SplashViewModel by viewModels()
+    private val splashViewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      val splash =  installSplashScreen()
-     //   setContentView(R.layout.activity_splash2)
+        val splash = installSplashScreen()
+        //   setContentView(R.layout.activity_splash2)
         splash.setKeepVisibleCondition {
             true
         }
@@ -25,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
-    private fun startAccessObserver () {
+    private fun startAccessObserver() {
         splashViewModel.accessState.observe(this) {
             if (it) {
                 startActivity(Intent(this, MainScreen::class.java))
