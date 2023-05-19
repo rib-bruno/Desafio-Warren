@@ -8,5 +8,5 @@ import retrofit2.http.Header
 interface UserApi {
 
     @GET("portfolios/mine")
-    suspend fun getUser(@Header("access-token") token: String) : Response<ListUserResponse>
+    suspend fun getUserGoals(@Header("access-token") token: String) : Response<ListUserResponse>
 }

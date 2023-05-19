@@ -2,7 +2,7 @@ package com.example.warrenlogin.feature_user.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Portfolio(
+data class PortfolioResponse(
     @SerializedName("_id")
     val _id: String,
     @SerializedName("background")
