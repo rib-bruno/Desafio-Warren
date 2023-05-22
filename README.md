@@ -3,12 +3,19 @@ Desafio mobile em kotlin, proposto pela empresa Warren Brasil (https://github.co
 
 # Tecnologias 👨‍💻
 Android;
+
 Kotlin;
+
 Retrofit;
+
 Architecture Components;
+
 Coroutines;
+
 Injeção de dependências;
+
 Room Database;
+
 Testes Unitários;
 
 # Preview 🎥
