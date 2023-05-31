@@ -1,8 +1,9 @@
 package com.example.warrenlogin.feature_user.data.response
 
+import com.example.warrenlogin.feature_user.data.database.BackgroundDb
 import com.google.gson.annotations.SerializedName
 
-data class Background(
+data class BackgroundResponse(
     @SerializedName("full")
     val full: String,
     @SerializedName("raw")
@@ -13,4 +14,14 @@ data class Background(
     val small: String,
     @SerializedName("thumb")
     val thumb: String
-)
+) {
+    fun toBackGroundDb() : BackgroundDb {
+        return BackgroundDb(
+            full = full,
+            raw = raw,
+            regular = regular,
+            small = small,
+            thumb = thumb
+        )
+    }
+}
