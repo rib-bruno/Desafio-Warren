@@ -31,16 +31,42 @@ data class PortfolioResponse(
         )
     }
 
-//    fun toUser() : User {
-//        return User(
+//    fun List<PortfolioResponse>.toUserDb() = map {
+//        UserDb(
 //            id = _id,
 //            name = name,
 //            totalBalance = totalBalance,
 //            goalAmount = goalAmount,
 //            goalDate = goalDate,
-//            background = background.()
+//            background = background.toBackGroundDb()
 //        )
 //    }
+
+
+
+//    fun List<PortfolioResponse>.toUsers() = map {
+//        User(
+//            id = _id,
+//            name = name,
+//            totalBalance = totalBalance,
+//            goalAmount = goalAmount,
+//            goalDate = goalDate,
+//            background = background.toBackGroundDomain()
+//        )
+//    }
+
+
+
+    fun toUser() : User {
+        return User(
+            id = _id,
+            name = name,
+            totalBalance = totalBalance,
+            goalAmount = goalAmount,
+            goalDate = goalDate,
+            background = background.toBackGroundDomain()
+        )
+    }
 }
 
 

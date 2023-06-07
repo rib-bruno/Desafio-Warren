@@ -20,7 +20,8 @@ interface UserDao {
     suspend fun insertAll(users: List<UserDb>)
 
     @Query("SELECT * FROM users")
-    fun getAll(): Flow<List<UserDb>>
+   // fun getAll(): Flow<List<UserDb>>
+    fun getAll(): List<UserDb>
 
     @Query("DELETE FROM users")
     suspend fun deleteAll()

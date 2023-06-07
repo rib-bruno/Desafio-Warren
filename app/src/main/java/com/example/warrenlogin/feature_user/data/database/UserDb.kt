@@ -19,16 +19,16 @@ data class UserDb(
     //diretamente nas consultas SQL
     @Embedded val background: BackgroundDb
 ) {
-    fun toUser(): User {
-        return User(
-            name = name,
-            totalBalance = totalBalance,
-            goalAmount = goalAmount,
-            goalDate = goalDate,
-            id = id,
-            background = background.backgroundDbToDomain()
-        )
-    }
+//    fun List<UserDb>. toUser() = map {
+//        User(
+//            name = name,
+//            totalBalance = totalBalance,
+//            goalAmount = goalAmount,
+//            goalDate = goalDate,
+//            id = id,
+//            background = background.backgroundDbToDomain()
+//        )
+//    }
 
 }
 

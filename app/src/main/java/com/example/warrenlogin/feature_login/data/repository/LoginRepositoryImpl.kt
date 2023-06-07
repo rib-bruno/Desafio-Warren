@@ -12,25 +12,27 @@ class LoginRepositoryImpl(
     private val loginApi: LoginApi,
     private val loginDao: LoginDao,
 
-) : LoginRepository {
+    ) : LoginRepository {
     override suspend fun doLogin(email: String, password: String): Resource<Access> {
-       val request = LoginBody(email, password)
+        val request = LoginBody(email, password)
         return try {
             val response = loginApi.doLogin(request)
             if (response.isSuccessful) {
+
+                //salvando na db
                 response.body()?.let {
                     println("Overriding token with ${it.accessToken}")
-                    //loginDao.saveLogin(response.data.toLoginDb())
                     loginDao.saveLogin(it.toLoginDb())
+
                 }
-               // Resource.Success(response.data?.toAccess())
+                // Resource.Success(response.data?.toAccess())
                 Resource.Success(response.body()?.toAccess())
             } else {
                 response.errorBody()?.let {
                     Resource.Error("erro 1")
                 } ?: Resource.Error("erro desconhecido")
             }
-        } catch (e:IOException) {
+        } catch (e: IOException) {
             Resource.Error(
                 "checar a internet"
             )
@@ -42,7 +44,7 @@ class LoginRepositoryImpl(
         return try {
             val response = loginDao.getLogin()
             Resource.Success(response.toAccess())
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             Resource.Error("algum erro ao acessar a DB")
         }
     }
