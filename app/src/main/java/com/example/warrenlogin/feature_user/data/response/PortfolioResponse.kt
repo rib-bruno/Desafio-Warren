@@ -19,17 +19,17 @@ data class PortfolioResponse(
     @SerializedName("totalBalance")
     val totalBalance: Double
 ) {
-    fun toUserDb() : UserDb {
-        return UserDb(
-            id = _id,
-            name = name,
-            totalBalance = totalBalance,
-            goalAmount = goalAmount,
-            goalDate = goalDate,
-            background = background.toBackGroundDb()
-
-        )
-    }
+//    fun toUserDb() : UserDb {
+//        return UserDb(
+//            id = _id,
+//            name = name,
+//            totalBalance = totalBalance,
+//            goalAmount = goalAmount,
+//            goalDate = goalDate,
+//            background = background.toBackGroundDb()
+//
+//        )
+//    }
 
 //    fun List<PortfolioResponse>.toUserDb() = map {
 //        UserDb(
@@ -57,16 +57,16 @@ data class PortfolioResponse(
 
 
 
-    fun toUser() : User {
-        return User(
-            id = _id,
-            name = name,
-            totalBalance = totalBalance,
-            goalAmount = goalAmount,
-            goalDate = goalDate,
-            background = background.toBackGroundDomain()
-        )
-    }
+//    fun toUser() : User {
+//        return User(
+//            id = _id,
+//            name = name,
+//            totalBalance = totalBalance,
+//            goalAmount = goalAmount,
+//            goalDate = goalDate,
+//            background = background.toBackGroundDomain()
+//        )
+//    }
 }
 
 
