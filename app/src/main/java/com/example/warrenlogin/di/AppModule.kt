@@ -3,6 +3,7 @@ package com.example.warrenlogin.di
 import android.content.Context
 import androidx.room.Room
 import com.example.warrenlogin.feature_login.data.database.AppDatabase
+import com.example.warrenlogin.feature_user.data.database.UserGoalsDatabase
 import com.example.warrenlogin.other.Constants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -27,4 +28,10 @@ object AppModule {
     fun providesLoginDao(
         database: AppDatabase
     ) = database.loginDao()
+
+    @Singleton
+    @Provides
+    fun providesUserGoalsDao (
+        database: UserGoalsDatabase
+    ) = database.userDao()
 }
