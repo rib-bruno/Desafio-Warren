@@ -11,9 +11,11 @@ import com.example.warrenlogin.feature_user.data.database.BackgroundDb
 import com.example.warrenlogin.feature_user.data.database.UserDao
 import com.example.warrenlogin.feature_user.data.database.UserDb
 import com.example.warrenlogin.feature_user.data.database.UserGoalsDatabase
+import com.google.common.truth.Truth.assertThat
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -73,6 +75,23 @@ class UserDaoTest {
         addOneItemToDb()
         val allUsersItems = dao.getAll()
         assertEquals(allUsersItems,dbUserItem )
+    }
+
+    @Test
+    fun daoDeleteAll_deleteUser() = runTest {
+        addOneItemToDb()
+        dao.deleteAll()
+
+        val allUsersItem = dao.getAll()
+        assertThat(allUsersItem).doesNotContain(dbUserItem)
+    }
+
+    @Test
+    fun daoSaveLogin_returnUserFromDb() = runTest {
+        addOneItemToDb()
+        val allUserItem = dao.getAll()
+
+
     }
 
 

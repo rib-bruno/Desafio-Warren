@@ -16,7 +16,18 @@ fun  List<PortfolioResponse>.toUserDb() = map {
     )
 }
 
-fun List<UserDb>. toUser() = map {
+fun  List<PortfolioResponse>.toUserDomain() = map {
+    User(
+        name = it.name,
+        totalBalance = it.totalBalance,
+        goalAmount = it.goalAmount,
+        goalDate = it.goalDate,
+        id = it._id,
+        background = it.background.toBackGroundDomain()
+    )
+}
+
+fun List<UserDb>.toUser() = map {
     User(
         name = it.name,
         totalBalance = it.totalBalance,

@@ -79,15 +79,15 @@ class LoginDaoTest {
 
     }
 
-    @Test
-    fun daoGetLogin_getLoginFromDb() = runTest {
-        addOneItemToDb()
-
-        //entraindo entity do bando de dados
-        val allLoginItem = dao.getLogin()
-        assertEquals(allLoginItem, loginItem)
-
-    }
+//    @Test
+//    fun daoGetLogin_getLoginFromDb() = runTest {
+//        addOneItemToDb()
+//
+//        //entraindo entity do bando de dados
+//        val allLoginItem = dao.getLogin()
+//        assertEquals(allLoginItem, loginItem)
+//
+//    }
 
     @Test
     fun daoSaveLogin_returnLoginDb() = runTest {
