@@ -5,10 +5,10 @@ import com.example.warrenlogin.feature_user.domain.entities.User
 import com.example.warrenlogin.feature_user.domain.repository.UserGoalsRepository
 
 class GetUsersUseCase (
-    private val userGoalRepository: UserGoalsRepository
+    private val repository: UserGoalsRepository
         ) {
 
     suspend operator fun invoke (token: String) : Resource<List<User>> {
-        return userGoalRepository.getUserGoals(token)
+        return repository.getUserGoals(token)
     }
 }

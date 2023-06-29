@@ -1,4 +1,85 @@
 package com.example.warrenlogin.feature_user.presentation
 
-class UsersViewModel {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.warrenlogin.feature_login.domain.entities.Access
+import com.example.warrenlogin.feature_login.domain.use_case.AccessUseCase
+import com.example.warrenlogin.feature_login.domain.util.Resource
+import com.example.warrenlogin.feature_user.domain.entities.User
+import com.example.warrenlogin.feature_user.domain.use_case.GetUsersUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class UsersViewModel @Inject constructor(
+    private val getUserUseCase: GetUsersUseCase,
+    private val getAccessUseCase: AccessUseCase,
+) : ViewModel() {
+
+    private val _userGoalsLiveData: MutableLiveData<Resource<List<User>>> = MutableLiveData()
+    val userGoalsLiveData: LiveData<Resource<List<User>>>
+    get() = _userGoalsLiveData
+
+
+//    init {
+//        viewModelScope.launch {
+//            val accessResource = getAccess()
+//            if(accessResource is Resource.Success) {
+//                val token = accessResource.data!!.accessToken
+//                fetchUserGoals(token)
+//            }
+//        }
+//    }
+
+    init {
+        viewModelScope.launch {
+            try {
+                val accessResource = getAccess()
+                if (accessResource is Resource.Success) {
+                    val token = accessResource.data!!.accessToken
+                    fetchUserGoals(token)
+                } else {
+                    _userGoalsLiveData.postValue()
+                }
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+    private fun fetchUserGoals(token: String) {
+        viewModelScope.launch {
+            _userGoalsLiveData.value = Resource.Loading
+            try {
+                val resource = getUserGoals(token)
+                _userGoalsLiveData.postValue(resource)
+            } catch (e: Exception) {
+                _userGoalsLiveData.postValue(
+                    Resource.Error("Oops Something went wrong. Please ty again.")
+                )
+            }
+        }
+    }
+
+    //recuperando o token de acesso
+    private suspend fun getAccess(): Resource<Access> {
+        val result = getAccessUseCase.invoke()
+        return if (result is Resource.Success) {
+            Resource.Success(result.data)
+        } else {
+            Resource.Error("Sem acesso")
+        }
+    }
+
+    //chamando o use case
+    private suspend fun getUserGoals(token: String) : Resource<List<User>> {
+        return getUserUseCase.invoke(token)
+    }
+
 }
+
+
+

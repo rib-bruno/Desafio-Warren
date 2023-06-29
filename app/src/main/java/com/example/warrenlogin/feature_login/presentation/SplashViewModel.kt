@@ -20,8 +20,6 @@ class SplashViewModel @Inject constructor(
     emit(result)
 }
 
-
-
     private suspend fun getAccess(): Boolean {
       //return accessUseCase() is Resource.Success
         val result = accessUseCase.invoke()
