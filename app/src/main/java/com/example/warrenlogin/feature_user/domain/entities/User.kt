@@ -7,4 +7,7 @@ data class User (
     val goalDate: String,
     val name: String,
     val totalBalance: Double) {
+
+
+
 }
