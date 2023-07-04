@@ -11,6 +11,7 @@ import com.example.warrenlogin.feature_user.domain.entities.User
 import com.example.warrenlogin.feature_user.domain.use_case.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,17 +25,12 @@ class UsersViewModel @Inject constructor(
     get() = _userGoalsLiveData
 
 
-//    init {
-//        viewModelScope.launch {
-//            val accessResource = getAccess()
-//            if(accessResource is Resource.Success) {
-//                val token = accessResource.data!!.accessToken
-//                fetchUserGoals(token)
-//            }
-//        }
-//    }
-
     init {
+       fetchUserGoalsFromDataBase()
+    }
+
+
+    private fun fetchUserGoalsFromDataBase() {
         viewModelScope.launch {
             try {
                 val accessResource = getAccess()
@@ -42,10 +38,10 @@ class UsersViewModel @Inject constructor(
                     val token = accessResource.data!!.accessToken
                     fetchUserGoals(token)
                 } else {
-                    _userGoalsLiveData.postValue()
+                    _userGoalsLiveData.postValue(Resource.Error ("Não foi possível localizar o token de acesso."))
                 }
-            } catch (e: Exception) {
-
+            } catch (e:Exception) {
+                _userGoalsLiveData.postValue(Resource.Error("Oops! Algo deu errado. Por favor, tente novamente."))
             }
         }
     }
@@ -56,10 +52,10 @@ class UsersViewModel @Inject constructor(
             try {
                 val resource = getUserGoals(token)
                 _userGoalsLiveData.postValue(resource)
+            } catch (e: IOException) {
+                _userGoalsLiveData.postValue(Resource.Error("Oops! Não foi possível conectar ao servidor. Verifique sua conexão com a internet."))
             } catch (e: Exception) {
-                _userGoalsLiveData.postValue(
-                    Resource.Error("Oops Something went wrong. Please ty again.")
-                )
+                _userGoalsLiveData.postValue(Resource.Error("Oops! Algo deu errado. Por favor, tente novamente."))
             }
         }
     }
@@ -70,7 +66,7 @@ class UsersViewModel @Inject constructor(
         return if (result is Resource.Success) {
             Resource.Success(result.data)
         } else {
-            Resource.Error("Sem acesso")
+            Resource.Error("Não foi possível localizar o token de acesso.")
         }
     }
 
