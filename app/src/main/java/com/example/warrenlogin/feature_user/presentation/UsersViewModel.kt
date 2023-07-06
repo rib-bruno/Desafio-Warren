@@ -48,7 +48,7 @@ class UsersViewModel @Inject constructor(
 
     private fun fetchUserGoals(token: String) {
         viewModelScope.launch {
-            _userGoalsLiveData.value = Resource.Loading
+           // _userGoalsLiveData.value = Resource.Loading
             try {
                 val resource = getUserGoals(token)
                 _userGoalsLiveData.postValue(resource)
