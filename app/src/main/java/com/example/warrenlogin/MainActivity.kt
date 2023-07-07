@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnEntrar.setTextColor(Color.parseColor("#FFFFFF"))
 
         loginViewModel.doLogin(email, password)
+
         Handler(Looper.getMainLooper()).postDelayed({
             navigateMainScreen()
 //            val snackbar = Snackbar.make(view, "Login efetuado com sucesso", Snackbar.LENGTH_SHORT)

@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.warrenlogin.feature_login.data.database.AppDatabase
 import com.example.warrenlogin.feature_user.data.database.UserGoalsDatabase
 import com.example.warrenlogin.other.Constants.DATABASE_NAME
+import com.example.warrenlogin.other.Constants.DATABASE_USER
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +29,12 @@ object AppModule {
     fun providesLoginDao(
         database: AppDatabase
     ) = database.loginDao()
+
+    @Singleton
+    @Provides
+    fun providesUserDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(context,UserGoalsDatabase::class.java, DATABASE_USER).build()
 
     @Singleton
     @Provides

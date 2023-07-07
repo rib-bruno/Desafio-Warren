@@ -8,6 +8,7 @@ import com.example.warrenlogin.feature_user.data.database.UserDao
 import com.example.warrenlogin.feature_user.data.remote.UserApi
 import com.example.warrenlogin.feature_user.data.repository.UserGoalsRepositoryImpl
 import com.example.warrenlogin.feature_user.domain.repository.UserGoalsRepository
+import com.example.warrenlogin.feature_user.domain.use_case.GetUsersUseCase
 import com.example.warrenlogin.other.Constants
 import dagger.Module
 import dagger.Provides
@@ -36,8 +37,14 @@ object UserGoalModule {
 
     @Provides
     @Singleton
-    fun providesLoginRepository(api: UserApi, dao: UserDao) : UserGoalsRepository {
+    fun providesUserGoalsRepository(api: UserApi, dao: UserDao) : UserGoalsRepository {
         return UserGoalsRepositoryImpl(api, dao)
+    }
+
+    @Provides
+    @Singleton
+    fun providesUserGoalsUseCase(repository: UserGoalsRepository) : GetUsersUseCase {
+        return GetUsersUseCase(repository)
     }
 
 

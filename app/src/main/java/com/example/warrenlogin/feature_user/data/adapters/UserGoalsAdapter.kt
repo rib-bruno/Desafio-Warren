@@ -45,12 +45,6 @@ class UserGoalsAdapter(private val context: Context, private val userList: List<
             }
         }
 
-//        val imgUser = binding.imgUser
-//        val name = binding.txtName
-//        val totalBalance = binding.txtTotalBalance
-//        val goalAmount = binding.txtGoalAmount
-//        val goalDate = binding.txtGoalDate
-
         private fun onLoadImageSuccess() {
             binding.progressBar.gone()
         }
@@ -59,6 +53,10 @@ class UserGoalsAdapter(private val context: Context, private val userList: List<
             binding.progressBar.gone()
         }
     }
-
-
 }
+
+//        val imgUser = binding.imgUser
+//        val name = binding.txtName
+//        val totalBalance = binding.txtTotalBalance
+//        val goalAmount = binding.txtGoalAmount
+//        val goalDate = binding.txtGoalDate
