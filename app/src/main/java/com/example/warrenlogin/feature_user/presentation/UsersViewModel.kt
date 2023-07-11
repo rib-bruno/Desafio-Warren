@@ -57,12 +57,24 @@ class UsersViewModel @Inject constructor(
             } catch (e: Exception) {
                 _userGoalsLiveData.postValue(Resource.Error("Oops! Algo deu errado. Por favor, tente novamente."))
             }
+
+//            val resource = getUserGoals(token)
+//            when(resource) {
+//                is Resource.Success -> {
+//                    _userGoalsLiveData.value = resource
+//                }
+//                is Resource.Error -> {
+//                    _userGoalsLiveData.value =
+//                }
+//            }
         }
     }
 
     //recuperando o token de acesso
     private suspend fun getAccess(): Resource<Access> {
+
         val result = getAccessUseCase.invoke()
+
         return if (result is Resource.Success) {
             Resource.Success(result.data)
         } else {

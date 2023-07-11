@@ -8,6 +8,8 @@ import com.example.warrenlogin.feature_user.data.toUserDb
 import com.example.warrenlogin.feature_user.data.toUserDomain
 import com.example.warrenlogin.feature_user.domain.entities.User
 import com.example.warrenlogin.feature_user.domain.repository.UserGoalsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -16,33 +18,47 @@ class UserGoalsRepositoryImpl(
     private val userGoalsDao: UserDao
 ) : UserGoalsRepository {
 
-    override suspend fun getUserGoals(token: String): Resource<List<User>> {
-        return try {
-            val response = userGoalsAPi.getUserGoals(token)
-            if (response.isSuccessful) {
+    override suspend fun getUserGoals(token: String): Flow<Resource<List<User>>>  = flow {
 
-                //evitando chamar response.body várias vezes
-                val users = response.body()?.toUserDomain()
-                users?.let {
-                    userGoalsDao.saveUsers(it.toUserDb())
-                }
-                Resource.Success(users)
-            } else {
-                getUserGoalsLocal()
+        try {
+            val userGoalsList = userGoalsAPi.getUserGoals(token)
+            if (userGoalsList.isSuccessful) {
+                userGoalsList.body()?.toUserDomain()
+                saveUserGoals(userGoalsList)
             }
-        } catch (e: IOException) {
-            Resource.Error(
-                "Oops! Couldn't reach server. Check your internet connection."
-            )
-        } catch (e: HttpException) {
-            Resource.Error(
-                " Oops! Something went wrong. Please try again"
-            )
+
         }
+        catch (e: Exception) {
+            emit(Resource.Error("$e"))
+        }
+
+
+//        return try {
+//            val response = userGoalsAPi.getUserGoals(token)
+//            if (response.isSuccessful) {
+//
+//                //evitando chamar response.body várias vezes
+//                val users = response.body()?.toUserDomain()
+//                users?.let {
+//                    userGoalsDao.saveUsers(it.toUserDb())
+//                }
+//                Resource.Success(users)
+//            } else {
+//                getUserGoalsLocal()
+//            }
+//        } catch (e: IOException) {
+//            Resource.Error(
+//                "Oops! Couldn't reach server. Check your internet connection."
+//            )
+//        } catch (e: HttpException) {
+//            Resource.Error(
+//                " Oops! Something went wrong. Please try again"
+//            )
+//        }
 
     }
 
-    private fun getUserGoalsLocal(): Resource<List<User>> {
+    override suspend fun listUser(): Resource<List<User>> {
         return try {
             val localUsers = userGoalsDao.getAll()
             if (localUsers.isEmpty()) {
@@ -54,6 +70,24 @@ class UserGoalsRepositoryImpl(
             Resource.Error("Erro inesperado!")
         }
     }
+
+    override suspend fun saveUserGoals(user: List<User>) {
+        userGoalsDao.saveUsers(user.toUserDb())
+    }
+
+//    private fun getUserGoalsLocal(): Resource<List<User>> {
+//        return try {
+//            val localUsers = userGoalsDao.getAll()
+//            if (localUsers.isEmpty()) {
+//               Resource.Error("Não há dados locais disponíveis!")
+//            } else {
+//                Resource.Success(localUsers.toUser())
+//            }
+//        } catch (e: Exception) {
+//            Resource.Error("Erro inesperado!")
+//        }
+//    }
+
 
 }
 

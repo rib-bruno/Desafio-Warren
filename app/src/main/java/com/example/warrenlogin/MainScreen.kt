@@ -22,10 +22,15 @@ class MainScreen : AppCompatActivity() {
 
     //INICIANDO O BINDING
     private lateinit var binding: ActivityMainScreenBinding
+
     private val viewModel : UsersViewModel by viewModels()
+
     private lateinit var progressBar: ProgressBar
+
     private lateinit var userGoalsAdapter: UserGoalsAdapter
+
     private val userList: MutableList<User> = mutableListOf()
+
     private lateinit var recyclerView: RecyclerView
 
 
@@ -34,8 +39,10 @@ class MainScreen : AppCompatActivity() {
         binding = ActivityMainScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.hide()
+        lifecycle.addObserver(viewModel)
 
+
+        supportActionBar!!.hide()
         window.statusBarColor = Color.parseColor("#ED184A")
     }
 

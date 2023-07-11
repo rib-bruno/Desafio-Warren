@@ -26,7 +26,7 @@ class LoginRepositoryImpl(
 
                 }
                 // Resource.Success(response.data?.toAccess())
-                Resource.Success(response.body()?.toAccess())
+                Resource.Success<Access>(response.body()?.toAccess())
             } else {
                 response.errorBody()?.let {
                     Resource.Error("erro 1")
@@ -34,7 +34,7 @@ class LoginRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                "checar a internet"
+                e
             )
         }
 
@@ -45,7 +45,7 @@ class LoginRepositoryImpl(
             val response = loginDao.getLogin()
             Resource.Success(response.toAccess())
         } catch (e: Exception) {
-            Resource.Error("algum erro ao acessar a DB")
+            Resource.Error(e)
         }
     }
 }

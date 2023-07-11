@@ -6,6 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface UserGoalsRepository {
-    suspend fun getUserGoals(token: String) : Resource<List<User>>
+    suspend fun getUserGoals(token: String) : Flow<Resource<List<User>>>
+
+    suspend fun listUser(): Resource<List<User>>
+
+    suspend fun saveUserGoals(user: List<User>)
 
 }
