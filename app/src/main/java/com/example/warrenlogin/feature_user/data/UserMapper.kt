@@ -5,16 +5,16 @@ import com.example.warrenlogin.feature_user.data.response.PortfolioResponse
 import com.example.warrenlogin.feature_user.domain.entities.User
 
 //networking to db
-//fun  List<PortfolioResponse>.toUserDb() = map {
-//    UserDb(
-//        id = it._id,
-//        name = it.name,
-//        totalBalance = it.totalBalance,
-//        goalAmount = it.goalAmount,
-//        goalDate = it.goalDate,
-//        background = it.background.toBackGroundDb()
-//    )
-//}
+fun  List<PortfolioResponse>.netToUserDb() = map {
+    UserDb(
+        id = it._id,
+        name = it.name,
+        totalBalance = it.totalBalance,
+        goalAmount = it.goalAmount,
+        goalDate = it.goalDate,
+        background = it.background.toBackGroundDb()
+    )
+}
 
 //networking to domain
 fun  List<PortfolioResponse>.toUserDomain() = map {

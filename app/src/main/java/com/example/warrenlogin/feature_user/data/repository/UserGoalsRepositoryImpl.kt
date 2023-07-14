@@ -1,7 +1,9 @@
 package com.example.warrenlogin.feature_user.data.repository
 
+import android.util.Log
 import com.example.warrenlogin.feature_login.domain.util.Resource
 import com.example.warrenlogin.feature_user.data.database.UserDao
+import com.example.warrenlogin.feature_user.data.netToUserDb
 import com.example.warrenlogin.feature_user.data.remote.UserApi
 import com.example.warrenlogin.feature_user.data.toUser
 import com.example.warrenlogin.feature_user.data.toUserDb
@@ -21,15 +23,22 @@ class UserGoalsRepositoryImpl(
     override suspend fun getUserGoals(token: String): Flow<Resource<List<User>>>  = flow {
 
         try {
-            val userGoalsList = userGoalsAPi.getUserGoals(token)
-            if (userGoalsList.isSuccessful) {
-                userGoalsList.body()?.toUserDomain()
-                saveUserGoals(userGoalsList)
+            userGoalsAPi.getUserGoals(token).let {
+                if (it.isSuccessful) {
+                    val response = it.body()?.toUserDomain() ?: emptyList()
+                    saveUserGoals(response)
+                    emit(Resource.Success(response))
+                }
+            }
+            //saveUserGoals(userGoalsList)
+           // emit(Resource.Success(userGoalsList))
+        } catch (e: Exception) {
+            if (listUser().data?.isNotEmpty() == true){
+                emit(listUser())
+            } else {
+                emit(Resource.Error("$e"))
             }
 
-        }
-        catch (e: Exception) {
-            emit(Resource.Error("$e"))
         }
 
 
