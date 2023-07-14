@@ -1,5 +1,7 @@
 # Desafio-Warren 📱
-Desafio mobile em kotlin, proposto pela empresa Warren Brasil (https://github.com/warrenbrasil/desafio-warren-mobile).
+Desafio mobile em kotlin, proposto pela empresa Warren Brasil (https://github.com/warrenbrasil/desafio-warren-mobile). Consiste na realização de login e autenticação
+de usuário, de forma que os dados do usuário fiquem salvos localmente e sejam apresentados em tela.
+
 
 # Tecnologias 👨‍💻
 Android;
