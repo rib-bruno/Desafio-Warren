@@ -33,8 +33,7 @@ class LoginRepositoryImpl(
                 } ?: Resource.Error("erro desconhecido")
             }
         } catch (e: IOException) {
-            Resource.Error(
-                e
+            Resource.Error("algo deu errado"
             )
         }
 
@@ -45,7 +44,7 @@ class LoginRepositoryImpl(
             val response = loginDao.getLogin()
             Resource.Success(response.toAccess())
         } catch (e: Exception) {
-            Resource.Error(e)
+            Resource.Error("sem acesso")
         }
     }
 }

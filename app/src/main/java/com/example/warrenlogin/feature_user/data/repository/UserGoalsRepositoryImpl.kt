@@ -25,7 +25,7 @@ class UserGoalsRepositoryImpl(
         try {
             userGoalsAPi.getUserGoals(token).let {
                 if (it.isSuccessful) {
-                    val response = it.body()?.toUserDomain() ?: emptyList()
+                    val response = it.body()!!.toUserDomain()
                     saveUserGoals(response)
                     emit(Resource.Success(response))
                 }
@@ -36,7 +36,7 @@ class UserGoalsRepositoryImpl(
             if (listUser().data?.isNotEmpty() == true){
                 emit(listUser())
             } else {
-                emit(Resource.Error("$e"))
+                emit(Resource.Error("não foi possível acessar os dados  da databse -> $e"))
             }
 
         }
@@ -79,6 +79,8 @@ class UserGoalsRepositoryImpl(
             Resource.Error("Erro inesperado!")
         }
     }
+
+
 
     override suspend fun saveUserGoals(user: List<User>) {
         userGoalsDao.saveUsers(user.toUserDb())

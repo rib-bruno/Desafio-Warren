@@ -10,7 +10,10 @@ import com.example.warrenlogin.feature_login.domain.util.Resource
 import com.example.warrenlogin.feature_user.domain.entities.User
 import com.example.warrenlogin.feature_user.domain.use_case.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
@@ -20,8 +23,8 @@ class UsersViewModel @Inject constructor(
     private val getAccessUseCase: AccessUseCase,
 ) : ViewModel() {
 
-    private val _userGoalsLiveData: MutableLiveData<Resource<List<User>>> = MutableLiveData()
-    val userGoalsLiveData: LiveData<Resource<List<User>>>
+    private val _userGoalsLiveData = MutableLiveData<ViewState<List<User>>>()
+    val userGoalsLiveData: LiveData<ViewState<List<User>>>
     get() = _userGoalsLiveData
 
 
@@ -70,10 +73,17 @@ class UsersViewModel @Inject constructor(
         }
     }
 
+    private suspend fun emitGoalsState(state: ViewState<List<User>>) {
+        withContext(Dispatchers.Main) {
+            userGoalsLiveData.value = state
+        }
+
+    }
+
     //recuperando o token de acesso
     private suspend fun getAccess(): Resource<Access> {
 
-        val result = getAccessUseCase.invoke()
+        val result = getAccessUseCase()
 
         return if (result is Resource.Success) {
             Resource.Success(result.data)
@@ -83,8 +93,8 @@ class UsersViewModel @Inject constructor(
     }
 
     //chamando o use case
-    private suspend fun getUserGoals(token: String) : Resource<List<User>> {
-        return getUserUseCase.invoke(token)
+    private suspend fun getUserGoals(token: String) : Flow<Resource<List<User>>> {
+        return getUserUseCase(token)
     }
 
 }
