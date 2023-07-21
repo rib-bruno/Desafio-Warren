@@ -10,10 +10,9 @@ import com.example.warrenlogin.feature_login.domain.util.Resource
 import com.example.warrenlogin.feature_user.domain.entities.User
 import com.example.warrenlogin.feature_user.domain.use_case.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -23,8 +22,11 @@ import javax.inject.Inject
 class UsersViewModel @Inject constructor(
     private val getUserUseCase: GetUsersUseCase,
     private val getAccessUseCase: AccessUseCase,
+    //dispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
+    //private val coroutineContext = viewModelScope.coroutineContext + dispatcher
     private val _userGoalsLiveData = MutableLiveData<ViewState<List<User>>>()
     val userGoalsLiveData: LiveData<ViewState<List<User>>>
         get() = _userGoalsLiveData
@@ -36,9 +38,20 @@ class UsersViewModel @Inject constructor(
     //3)implementar um bloco try-catch(por exemplo) para lidar com as execeções durante a chamada da função getUserGoals()
     //4)
 
+
+
     fun getUserGoalsList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            emitGoalsState(ViewState.Loading(true))
+        viewModelScope.launch(coroutineDispatcher) {
+
+            val accessViewState = getAccess()
+
+            if (accessViewState is ViewState.Success) {
+                val token = accessViewState.data.accessToken
+                fetchUserGoals(token)
+            } else {
+                emitGoalsState(
+                    ViewState.Error("Não foi possível localizar o token de acesso!"))
+            }
 
 //            try {
 //                val accessResult = getAccess()
@@ -56,6 +69,23 @@ class UsersViewModel @Inject constructor(
 //            } catch (e: Exception) {
 //                emitGoalsState(ViewState.Error("Erro desconhecido: ${e.message}"))
 //            }
+
+        }
+    }
+
+    private suspend fun fetchUserGoals(token: String) {
+        getUserGoals(token)
+            .onStart { emitGoalsState(ViewState.Loading(true))  }
+            .catch { throwable ->
+                emitGoalsState(ViewState.Error("Falha ao obter os dados dos usuários: ${throwable.message}"))
+            }
+            .collect { resource ->
+            when (resource) {
+                is Resource.Success -> emitGoalsState(ViewState.Success(resource.data))
+                is Resource.Error -> emitGoalsState(
+                    ViewState.Error("Falha ao obter os dados dos usuários: ${resource.error}") )
+                else -> emitGoalsState(ViewState.Error("Estado de recurso desconhecido."))
+            }
 
         }
     }
