@@ -12,6 +12,8 @@ import com.example.warrenlogin.feature_user.domain.use_case.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -25,75 +27,60 @@ class UsersViewModel @Inject constructor(
 
     private val _userGoalsLiveData = MutableLiveData<ViewState<List<User>>>()
     val userGoalsLiveData: LiveData<ViewState<List<User>>>
-    get() = _userGoalsLiveData
+        get() = _userGoalsLiveData
 
 
-    init {
-       fetchUserGoalsFromDataBase()
-    }
+    //1) Atualizar o método getUserGoalsList() para obter o token de acesso e depois chamar o método getUserGoals()
+    // para buscar a lista de usuários.
+    //2)Coletar essa lista no método anterior e emitir o estado adequado na LiveData
+    //3)implementar um bloco try-catch(por exemplo) para lidar com as execeções durante a chamada da função getUserGoals()
+    //4)
 
+    fun getUserGoalsList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            emitGoalsState(ViewState.Loading(true))
 
-    private fun fetchUserGoalsFromDataBase() {
-        viewModelScope.launch {
-            try {
-                val accessResource = getAccess()
-                if (accessResource is Resource.Success) {
-                    val token = accessResource.data!!.accessToken
-                    fetchUserGoals(token)
-                } else {
-                    _userGoalsLiveData.postValue(Resource.Error ("Não foi possível localizar o token de acesso."))
-                }
-            } catch (e:Exception) {
-                _userGoalsLiveData.postValue(Resource.Error("Oops! Algo deu errado. Por favor, tente novamente."))
-            }
-        }
-    }
-
-    private fun fetchUserGoals(token: String) {
-        viewModelScope.launch {
-           // _userGoalsLiveData.value = Resource.Loading
-            try {
-                val resource = getUserGoals(token)
-                _userGoalsLiveData.postValue(resource)
-            } catch (e: IOException) {
-                _userGoalsLiveData.postValue(Resource.Error("Oops! Não foi possível conectar ao servidor. Verifique sua conexão com a internet."))
-            } catch (e: Exception) {
-                _userGoalsLiveData.postValue(Resource.Error("Oops! Algo deu errado. Por favor, tente novamente."))
-            }
-
-//            val resource = getUserGoals(token)
-//            when(resource) {
-//                is Resource.Success -> {
-//                    _userGoalsLiveData.value = resource
+//            try {
+//                val accessResult = getAccess()
+//                if (accessResult is ViewState.Success) {
+//                    val userGoalResult = getUserGoals(accessResult.data.accessToken).first()
+//
+//                    if (userGoalResult is Resource.Success) {
+//                        emitGoalsState(ViewState.Success(userGoalResult.data))
+//                    } else {
+//                        emitGoalsState(ViewState.Error("Erro ao buscar dados do usuário"))
+//                    }
+//                } else {
+//                    emitGoalsState(ViewState.Error("Erro ao obter o token de acesso"))
 //                }
-//                is Resource.Error -> {
-//                    _userGoalsLiveData.value =
-//                }
+//            } catch (e: Exception) {
+//                emitGoalsState(ViewState.Error("Erro desconhecido: ${e.message}"))
 //            }
+
         }
     }
 
     private suspend fun emitGoalsState(state: ViewState<List<User>>) {
         withContext(Dispatchers.Main) {
-            userGoalsLiveData.value = state
+            _userGoalsLiveData.value = state
         }
 
     }
 
     //recuperando o token de acesso
-    private suspend fun getAccess(): Resource<Access> {
+    private suspend fun getAccess(): ViewState<Access> {
 
         val result = getAccessUseCase()
 
         return if (result is Resource.Success) {
-            Resource.Success(result.data)
+            ViewState.Success(result.data)
         } else {
-            Resource.Error("Não foi possível localizar o token de acesso.")
+            ViewState.Error("Não foi possível localizar o token de acesso.")
         }
     }
 
     //chamando o use case
-    private suspend fun getUserGoals(token: String) : Flow<Resource<List<User>>> {
+    private suspend fun getUserGoals(token: String): Flow<Resource<List<User>>> {
         return getUserUseCase(token)
     }
 

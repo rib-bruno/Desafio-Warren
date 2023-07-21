@@ -5,7 +5,7 @@ import com.example.warrenlogin.feature_user.domain.entities.User
 
 sealed class  ViewState<out T> {
 
-    data class Success<out T>(val data: List<User>) : ViewState<T>()
+    data class Success<out T>(val data: T) : ViewState<T>()
 
     data class Error( val error: String) : ViewState<Nothing>()
 
