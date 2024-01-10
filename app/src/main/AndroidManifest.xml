@@ -16,7 +16,7 @@
         android:theme="@style/Theme.WarrenLogin"
         tools:targetApi="31" >
         <activity
-            android:name=".SplashActivity"
+            android:name=".feature_splash.presentation.SplashActivity"
             android:theme="@style/Theme.App.SplashScreen"
             android:exported="true" >
             <intent-filter>
@@ -24,8 +24,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
 
             <meta-data
                 android:name="android.app.lib_name"

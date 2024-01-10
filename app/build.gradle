@@ -146,6 +146,9 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
 
+    //mockk
+
+    testImplementation "io.mockk:mockk:1.9.3"
 
 
 }

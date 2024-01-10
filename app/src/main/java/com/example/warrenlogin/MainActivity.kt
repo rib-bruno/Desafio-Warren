@@ -18,6 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    //TODO 01 - PASSAR ISSO PRO FRAGMENT
     private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         }, 3000)
     }
 
+    //TODO 02 - INICIALIZAR O NAVCONTROLLER
     private fun navigateMainScreen() {
         val intent = Intent(this, MainScreen::class.java)
         startActivity(intent)

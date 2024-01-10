@@ -1,4 +1,6 @@
 package com.example.warrenlogin.feature_login.presentation
 
-class LoginFragment {
+import androidx.fragment.app.Fragment
+
+class LoginFragment : Fragment() {
 }

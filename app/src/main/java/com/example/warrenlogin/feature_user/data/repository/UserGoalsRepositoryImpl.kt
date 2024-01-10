@@ -1,9 +1,7 @@
 package com.example.warrenlogin.feature_user.data.repository
 
-import android.util.Log
 import com.example.warrenlogin.feature_login.domain.util.Resource
 import com.example.warrenlogin.feature_user.data.database.UserDao
-import com.example.warrenlogin.feature_user.data.netToUserDb
 import com.example.warrenlogin.feature_user.data.remote.UserApi
 import com.example.warrenlogin.feature_user.data.toUser
 import com.example.warrenlogin.feature_user.data.toUserDb
@@ -12,8 +10,6 @@ import com.example.warrenlogin.feature_user.domain.entities.User
 import com.example.warrenlogin.feature_user.domain.repository.UserGoalsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 
 class UserGoalsRepositoryImpl(
     private val userGoalsAPi: UserApi,

@@ -1,11 +1,12 @@
-package com.example.warrenlogin
+package com.example.warrenlogin.feature_splash.presentation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.warrenlogin.feature_login.presentation.SplashViewModel
+import com.example.warrenlogin.MainActivity
+import com.example.warrenlogin.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

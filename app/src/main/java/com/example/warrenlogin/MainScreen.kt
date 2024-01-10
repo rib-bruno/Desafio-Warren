@@ -1,20 +1,16 @@
 package com.example.warrenlogin
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.activity.viewModels
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.warrenlogin.databinding.ActivityMainBinding
 import com.example.warrenlogin.databinding.ActivityMainScreenBinding
 import com.example.warrenlogin.feature_user.data.adapters.UserGoalsAdapter
 import com.example.warrenlogin.feature_user.domain.entities.User
 import com.example.warrenlogin.feature_user.presentation.UsersViewModel
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

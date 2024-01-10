@@ -1,4 +1,4 @@
-package com.example.warrenlogin.feature_login.presentation
+package com.example.warrenlogin.feature_splash.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
