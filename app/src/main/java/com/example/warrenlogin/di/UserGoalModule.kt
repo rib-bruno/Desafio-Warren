@@ -1,9 +1,5 @@
 package com.example.warrenlogin.di
 
-import com.example.warrenlogin.feature_login.data.database.LoginDao
-import com.example.warrenlogin.feature_login.data.remote.LoginApi
-import com.example.warrenlogin.feature_login.data.repository.LoginRepositoryImpl
-import com.example.warrenlogin.feature_login.domain.repository.LoginRepository
 import com.example.warrenlogin.feature_user.data.database.UserDao
 import com.example.warrenlogin.feature_user.data.remote.UserApi
 import com.example.warrenlogin.feature_user.data.repository.UserGoalsRepositoryImpl

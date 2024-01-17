@@ -10,4 +10,6 @@ import com.example.warrenlogin.feature_user.data.database.UserDao
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun loginDao(): LoginDao
+
+    //todo 03 - incorporar os dois db
 }
