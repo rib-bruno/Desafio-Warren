@@ -14,38 +14,42 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-  //  private val accessUseCase: AccessUseCase
 ) : ViewModel() {
 
-    private val  _loginState : MutableLiveData<Resource<Access>> = MutableLiveData()
-    val loginState: LiveData<Resource<Access>>
-    get() = _loginState
-
-//    private val _isLoading = MutableLiveData(true)
-//    val isLoading :  LiveData<Boolean> = _isLoading
-
-
-//    val accessState: LiveData<Boolean> = liveData {
-//        val result = getAccess()
-//
-//        delay(2000)
-//        emit(result)
-//    }
+    //armazenar o estado de login
+    private val _loginState: MutableLiveData<LoginState> = MutableLiveData()
+    val loginState: LiveData<LoginState>
+        get() = _loginState
 
     fun doLogin(email: String, password: String) = viewModelScope.launch {
-       _loginState.value = loginUseCase.invoke(email, password)
-//        val loginResult = loginUseCase.invoke(email, password)
+        try {
+            //iniciando com o estado de login
+            _loginState.value = LoginState.Loading
 
-       }
+            //atualizar o estado
+            when(val result = loginUseCase(email, password)) {
+                is Resource.Success -> {
+                    _loginState.value = result.data?.let { LoginState.Success(it) }
 
-//     private suspend fun getAccess(): Boolean {
-//        //return accessUseCase() is Resource.Success
-//        val result = accessUseCase.invoke()
-//         _isLoading.value = false
-//        return result is Resource.Success
-//    }
-
-
+                }
+                is Resource.Error -> {
+                    _loginState.value = LoginState.Error(result.message ?: "Erro Desconhecido!")
+                }
+                else -> {
+                }
+            }
+        } catch (e: Exception) {
+            _loginState.value = LoginState.Error("Erro ao realizar o login: ${e.message}")
+        }
     }
+}
 
+//TODO 04 - CRIAR UMA FUNÇÃO PARA LIDAR COM OS ERROS ESPECÍFICOS
+
+sealed class LoginState {
+    //TODO 05 - CRIAR UMA CLASSE STATE QUE CONTEMPLE O PROJETO TODO
+    object Loading : LoginState()
+    data class Success(val access: Access) : LoginState()
+    data class Error(val message: String) : LoginState()
+}
 

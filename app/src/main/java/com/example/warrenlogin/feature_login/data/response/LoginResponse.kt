@@ -4,6 +4,7 @@ import com.example.warrenlogin.feature_login.data.database.LoginDb
 import com.example.warrenlogin.feature_login.domain.entities.Access
 import com.google.gson.annotations.SerializedName
 
+//convertendo instâncias do Login response
 data class LoginResponse(
     @SerializedName("accessToken")
     val accessToken: String,
