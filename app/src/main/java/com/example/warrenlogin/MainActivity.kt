@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
             val email = binding.editEmail.text.toString().trim()
             val password = binding.editPassword.text.toString().trim()
 
-
             when {
                 email.isEmpty() -> {
                     binding.editEmail.error = "Preencha o Email"

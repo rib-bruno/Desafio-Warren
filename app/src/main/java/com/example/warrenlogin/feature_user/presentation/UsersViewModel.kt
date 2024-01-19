@@ -23,7 +23,7 @@ class UsersViewModel @Inject constructor(
     private val getUserUseCase: GetUsersUseCase,
     private val getAccessUseCase: AccessUseCase,
     //dispatcher: CoroutineDispatcher
-    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
+   // private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
     //private val coroutineContext = viewModelScope.coroutineContext + dispatcher
@@ -41,12 +41,12 @@ class UsersViewModel @Inject constructor(
 
 
     fun getUserGoalsList() {
-        viewModelScope.launch(coroutineDispatcher) {
+        viewModelScope.launch() {
 
             val accessViewState = getAccess()
 
             if (accessViewState is ViewState.Success) {
-                val token = accessViewState.data.accessToken
+                val token = accessViewState.data!!.accessToken
                 fetchUserGoals(token)
             } else {
                 emitGoalsState(
@@ -83,11 +83,15 @@ class UsersViewModel @Inject constructor(
             when (resource) {
                 is Resource.Success -> emitGoalsState(ViewState.Success(resource.data))
                 is Resource.Error -> emitGoalsState(
-                    ViewState.Error("Falha ao obter os dados dos usuários: ${resource.error}") )
+                    ViewState.Error("Falha ao obter os dados dos usuários: ${resource}") )
                 else -> emitGoalsState(ViewState.Error("Estado de recurso desconhecido."))
             }
 
         }
+    }
+
+    private fun emitGoalsState(state: ViewState.Success<List<User>?>) {
+
     }
 
     private suspend fun emitGoalsState(state: ViewState<List<User>>) {
@@ -98,7 +102,7 @@ class UsersViewModel @Inject constructor(
     }
 
     //recuperando o token de acesso
-    private suspend fun getAccess(): ViewState<Access> {
+    private suspend fun getAccess(): ViewState<Access?> {
 
         val result = getAccessUseCase()
 

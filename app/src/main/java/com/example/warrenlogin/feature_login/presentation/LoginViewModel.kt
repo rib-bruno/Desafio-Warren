@@ -30,7 +30,6 @@ class LoginViewModel @Inject constructor(
             when(val result = loginUseCase(email, password)) {
                 is Resource.Success -> {
                     _loginState.value = result.data?.let { LoginState.Success(it) }
-
                 }
                 is Resource.Error -> {
                     _loginState.value = LoginState.Error(result.message ?: "Erro Desconhecido!")

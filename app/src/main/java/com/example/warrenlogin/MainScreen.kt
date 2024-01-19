@@ -35,7 +35,7 @@ class MainScreen : AppCompatActivity() {
         binding = ActivityMainScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycle.addObserver(viewModel)
+    //    lifecycle.addObserver(viewModel)
 
 
         supportActionBar!!.hide()
@@ -50,7 +50,7 @@ class MainScreen : AppCompatActivity() {
                 adapter = userGoalsAdapter
                 layoutManager = LinearLayoutManager(context)
             }
-            root.setOnRefreshListener(this@MainScreen)
+        //    root.setOnRefreshListener(this@MainScreen)
 
         }
     }
