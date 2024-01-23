@@ -1,12 +1,15 @@
 package com.example.warrenlogin.feature_login.presentation
 
 import android.os.Bundle
+import android.text.Layout.Directions
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.warrenlogin.R
 import com.example.warrenlogin.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -36,6 +39,7 @@ class LoginFragment : Fragment() {
             val email = binding.editEmail.text.toString()
             val password = binding.editPassword.text.toString()
             val snackBar: Snackbar
+            val progressBar = binding.progressBar
 
             when {
                 email.isEmpty() -> {
@@ -72,6 +76,8 @@ class LoginFragment : Fragment() {
                 is LoginState.Success -> {
                     //executar ações após um login bem-sucedido; navegar pra proxima tela
                     val access = state.access
+                    val directions = LoginFragmentDirections.actionLoginFragmentToUsersGoalsFragment()
+                    findNavController().navigate(directions)
                 }
 
                 is LoginState.Error -> {
